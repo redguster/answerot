@@ -87,6 +87,7 @@ def ocr(path, htmlpath, atype, stype, ci, ck, sx, sy):
             ans1 = result[num-3]['words']
             ans2 = result[num-2]['words']
             ans3 = result[num-1]['words']
+            question = re.sub(re.compile('^[\d\.]*'), '', question, count=1)
             return search(question, ans1, ans2, ans3, htmlpath, atype, stype)
     
     write_html_file(htmlpath, cont1)
