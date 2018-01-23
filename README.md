@@ -20,7 +20,7 @@
 
 # 安装
 
-1. 安装python2.7.14
+1. 安装python2.7.14（安装中勾选环境变量配置，否则需要自己配置环境变量）
 
 ```
 https://www.python.org/ftp/python/2.7.14/python-2.7.14.msi
@@ -34,13 +34,15 @@ https://pypi.python.org/packages/11/b6/abcb525026a4be042b486df43905d6893fb04f05a
 3. pip安装django、PIL、simplejson
 
 ```
-pip install django=1.11
+pip install django==1.11
 pip install simplejson
 ```
 下载安装PIL
 ```
 http://effbot.org/downloads/PIL-1.1.7.win32-py2.7.exe
 ```
+
+所需资源包地址：[https://pan.baidu.com/s/1ggE8Rth](https://pan.baidu.com/s/1ggE8Rth) 密码: `pq9p`
 
 4. 使用百度文字识别API识别图片文字，申请百度开发者账号，创建文字识别应用，拿到client_id, client_secret
 
