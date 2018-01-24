@@ -36,15 +36,18 @@ def crop_img(path, dst, atype, sx, sy):
     im = Image.open(path)
     img_size = im.size
     x = 0
-    y = (200*sx)/1080
+    y = (250*sx)/1080
+    h = img_size[1]/2 - 40
+    w = img_size[0]
     if atype == 1 or atype == 3:
-        y = (200*sx)/1080 #chongding # baidu
+        y = (250*sx)/1080 #chongding # baidu
     elif atype == 2:
         y = (300*sx)/1080 #xigua # youku
     elif atype == 4:
         y = (400*sx)/1080
-    w = img_size[0]
-    h = img_size[1]/2
+    elif atype == 5: # zhihu
+        y = (610*sx)/1080
+        h = sy-(200*sx/1080)-y
     region = im.crop((x, y, x+w, y+h))
     region.save(dst)
 
@@ -76,28 +79,39 @@ def ocr(path, htmlpath, atype, stype, ci, ck, sx, sy):
         return [cont[1], '请检查网络','','']
     cont1 = cont[1]
     cont = json.loads(cont1)
-    
+
+    ans_count = 3
+    if atype == 5:
+        ans_count = 4
+
     if cont.has_key('words_result_num'):
         num = cont['words_result_num']
-        if num >= 4:
+        if num >= ans_count+1:
             result = cont['words_result']
             question = ''
-            for i in range(0, num-3):
+            maxcnt = num-ans_count
+            if atype == 5:
+                maxcnt = maxcnt - 2 #去除两处分数
+            for i in range(0, maxcnt):
                 question = question + result[i]['words']
-            ans1 = result[num-3]['words']
-            ans2 = result[num-2]['words']
-            ans3 = result[num-1]['words']
+            ans = []
+            for i in range(num-ans_count, num):
+                ans.append(result[i]['words'])
+
             question = re.sub(re.compile('^[\d\.]*'), '', question, count=1)
-            return search(question, ans1, ans2, ans3, htmlpath, atype, stype)
+            return search(question, ans, htmlpath, atype, stype)
     
     write_html_file(htmlpath, cont1)
     return ["识别图片失败", "请查看错误信息", "", ""]
         
-def search(q, a1, a2, a3, path, atype, stype=1):
+def search(q, ans, path, atype, stype=1):
+    ans1 = []
     if atype == 4: #youku
-        a1 = a1[2:]
-        a2 = a2[2:]
-        a3 = a3[2:]
+        for a in ans:
+            ans1.append(a[2:])
+    else:
+        ans1 = ans
+
     q1 = q
     url = 'http://www.baidu.com/s?wd='+urllib.quote(q1.encode('gbk'))
     if stype == 1:
@@ -121,19 +135,20 @@ def search(q, a1, a2, a3, path, atype, stype=1):
     except Exception as e:
         content = e
 
-    #pattern = re.compile('<script.+?</script>', re.MULTILINE|re.DOTALL)
-    #content = re.sub(pattern, '', content)
+    pattern = re.compile('<script.+?</script>', re.MULTILINE|re.DOTALL)
+    content = re.sub(pattern, '', content)
     content = content.replace('<em>', "<span style='font-size:22px;'><em>")
     content = content.replace('</em>', "</em></span>")
-    content = content.replace(a1.encode('utf8'), "<span style='font-weight:bold;font-size:32px'><em>"+a1.encode('utf8')+"</em></span>")
-    content = content.replace(a2.encode('utf8'), "<span style='font-weight:bold;font-size:32px'><em>"+a2.encode('utf8')+"</em></span>")
-    content = content.replace(a3.encode('utf8'), "<span style='font-weight:bold;font-size:32px'><em>"+a3.encode('utf8')+"</em></span>")
+    for a in ans1:
+        content = content.replace(a.encode('utf8'), "<span style='font-weight:bold;font-size:32px'><em>"+a.encode('utf8')+"</em></span>")
+    
     write_file(path, content)
-    c1 = content.count(a1.encode('utf8'))
-    c2 = content.count(a2.encode('utf8'))
-    c3 = content.count(a3.encode('utf8'))
+    ret = [q]
+    for a in ans1:
+        c = content.count(a.encode('utf8'))
+        ret.append(a+': '+str(c))
 
-    return [q, a1 + ': ' + str(c1) , a2 + ': ' + str(c2), a3 + ': ' + str(c3) ]
+    return ret
 
 if __name__ == '__main__':
     pass

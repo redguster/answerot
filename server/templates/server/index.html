@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +15,7 @@
         </script>
            
 </head>
+<script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
 <script type="text/javascript">
 function init() {
     var url = location.href;
@@ -28,6 +31,9 @@ function init() {
     }
     else if(url.indexOf("type=4") != -1) {
         atype = document.getElementById("youku");
+    }
+    else if(url.indexOf("type=5") != -1) {
+        atype = document.getElementById("zhihu");
     }
     if(atype != undefined) {
         atype.checked = true;
@@ -55,6 +61,8 @@ function init() {
         search.checked = true;
     } 
 }
+
+
 </script>
 
 <body onload="init()">
@@ -68,6 +76,7 @@ function init() {
                     <tr><td><input type="radio" id="jinri" name="type" value="2">今日.百万英雄</input></td></tr>
                     <tr><td><input type="radio" id="baidu" name="type" value="3">百度.极速挑战</input></td></tr>
                     <tr><td><input type="radio" id="youku" name="type" value="4">优酷.疯狂夺金</input></td></tr>
+                    <tr><td><input type="radio" id="zhihu" name="type" value="5">知乎.头脑王者</input></td></tr>
                 </table>
             </td>
             <td style="width:350px;padding-left:20px;padding-right:20px;background:#fee;">
@@ -83,7 +92,7 @@ function init() {
                 </table>
             </td>
             <td>
-                <input type="submit" name="submit" value="答题" 
+                <input type="submit" name="submit" value="答题"
                 style="width:140px; height:110px;font-size:60px;color:red;"  />
                 <p style="margin:0px;padding:10px;font-weight:bold;text-align:center;"><a href="/config/">初始配置</a></p>
             </td>
@@ -100,6 +109,7 @@ function init() {
             </tr>
             </table>
         </td></tr>
+        
     </table>
 </form>
 
