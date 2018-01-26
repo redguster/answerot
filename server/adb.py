@@ -40,7 +40,8 @@ def set_config(device, sx, sy, ci, ck):
             print e
         return result
 
-    cf.add_section('config')
+    if not cf.has_section('config'):
+        cf.add_section('config')
     cf.set('config', 'sx', sx)
     cf.set('config', 'sy', sy)
     cf.set('config', 'device', device)

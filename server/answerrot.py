@@ -35,6 +35,11 @@ def get_img(path):
 def crop_img(path, dst, atype, sx, sy):
     im = Image.open(path)
     img_size = im.size
+    # 用于本地功能，也可以再没有配置分辨率时使用
+    if sx == 0 or sy == 0:
+        sx = img_size[0]
+        sy = img_size[1]
+
     x = 0
     y = (250*sx)/1080
     h = img_size[1]/2 - 40
@@ -143,12 +148,14 @@ def search(q, ans, path, atype, stype=1):
         content = content.replace(a.encode('utf8'), "<span style='font-weight:bold;font-size:32px'><em>"+a.encode('utf8')+"</em></span>")
     
     write_file(path, content)
-    ret = [q]
+    
+    answ = {}
+    i = 0
     for a in ans1:
-        c = content.count(a.encode('utf8'))
-        ret.append(a+': '+str(c))
+        answ[i] = {a: str(content.count(a.encode('utf8')))}
+        i += 1
 
-    return ret
+    return [q, answ]
 
 if __name__ == '__main__':
     pass

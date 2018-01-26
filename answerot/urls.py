@@ -19,6 +19,7 @@ from server import views as server_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index/', server_views.index,  name="index"),
+    url(r'^search/', server_views.search,  name="search"),
     url(r'^result/', server_views.result,  name="result"),
     url(r'^config/', server_views.config,  name="config"),
     url(r'', server_views.index, name="index"),

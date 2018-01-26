@@ -17,6 +17,7 @@
 </head>
 <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
 <script type="text/javascript">
+
 function init() {
     var url = location.href;
     var atype = document.getElementById("chongding");
@@ -59,10 +60,105 @@ function init() {
     }
     if(search != undefined) {
         search.checked = true;
-    } 
+    }
+    if(url.indexOf("localcap") != -1) {
+        $("#localcap").attr("checked", "checked");
+    }
 }
 
+function searchtype() {
+    var st = $('input.stype');
+    for(var i=0; i<st.length; i++) {
+        if(st[i].checked == true) {
+            return $(st[i]).val();
+        }
+    }
+    return '';
+}
 
+function answertype() {
+    var st = $('input.anstype');
+    for(var i=0; i<st.length; i++) {
+        if(st[i].checked == true) {
+            return $(st[i]).val();
+        }
+    }
+    return '';
+}
+
+function presubmit() {
+    var localcap = document.getElementById("localcap");
+    if(localcap.checked) {
+        // $.get('http://localhost:9880/screencap', 
+        //     function(data){
+        //         console.log("1111");
+        //         //document.write(data);
+        //   }, 'jsonp')
+        $.ajax({
+            url: 'http://localhost:9880/screencap',
+            //data: data,
+            dataType: 'JSONP',
+            success: function(data) {
+                var data1 = data.data;
+                if(data1.substr(0, 4) == "ERR:") {
+                    var td = $("#questionans td");
+                    for(var i =0; i<td.length; i++) {
+                        $(td).html("")
+                    }
+                    $("#question").html(data1);
+                    $("#questionans tr:eq(1) td:eq(0)").html("请检查adbserver配置是否正确");
+                } else {
+                    // $.post({
+                    //     url: '/search/?type='+answertype()+'&search='+searchtype(),
+                    //     data: encodeURIComponent(data.data),//base64 /+=符号丢失
+                    //     success: function(data) {
+                    //         location.href = location.href + '?type='+answertype()+'&search='+searchtype();
+                    //         console.log(location.href);
+                    //         //document.write(data);
+                    //     }
+                    // })
+                    $("#search_ans").attr("action", '/search/?localcap=1&type='+answertype()+'&search='+searchtype());
+                    $("#search_data").val(encodeURIComponent(data1));//base64 /+=符号丢失
+                    $("#search_ans").submit();
+                }
+            },
+            error: function(xhr, msg) {
+                var td = $("#questionans td");
+                for(var i =0; i<td.length; i++) {
+                    $(td).html("")
+                }
+                $("#question").html("Error");
+                $("#questionans tr:eq(1) td:eq(0)").html("请检查adbserver是否正常启动");
+            }
+            });
+        return false;
+    }
+    return true;
+}
+function secsearch(key, question) {
+    var smap = {
+        "1": "http://www.baidu.com/s?wd=",
+        "2": "https://m.baidu.com/s?word=",
+        "3": "https://www.sogou.com/sgo?query=",
+        "4": "https://www.google.com/search?q=",
+        "5": "http://cn.bing.com/search?go=搜索&qs=ds&form=QBRE&q=",
+        "6": "https://www.so.com/s?q=",
+    }
+    var st = $('input.stype');
+    for(var i=0; i<st.length; i++) {
+        if(st[i].checked == true) {
+            var url = smap[$(st[i]).val()];
+            console.log(url);
+            if(question != undefined) {
+                key = question + ' ' + key;
+            }
+            window.open(url+key, "__blank");
+            break;
+        }
+    }
+    
+    return false;
+}
 </script>
 
 <body onload="init()">
@@ -72,27 +168,34 @@ function init() {
         <tr>
             <td style="background:rgb(114, 231, 103);height:120px;">
                 <table style="padding:10px;">
-                    <tr><td><input type="radio" id="chongding" name="type" value="1">冲顶大会</input></td></tr>
-                    <tr><td><input type="radio" id="jinri" name="type" value="2">今日.百万英雄</input></td></tr>
-                    <tr><td><input type="radio" id="baidu" name="type" value="3">百度.极速挑战</input></td></tr>
-                    <tr><td><input type="radio" id="youku" name="type" value="4">优酷.疯狂夺金</input></td></tr>
-                    <tr><td><input type="radio" id="zhihu" name="type" value="5">知乎.头脑王者</input></td></tr>
+                    <tr><td><input class="anstype" type="radio" id="chongding" name="type" value="1">冲顶大会</input></td></tr>
+                    <tr><td><input class="anstype" type="radio" id="jinri" name="type" value="2">今日.百万英雄</input></td></tr>
+                    <tr><td><input class="anstype" type="radio" id="baidu" name="type" value="3">百度.极速挑战</input></td></tr>
+                    <tr><td><input class="anstype" type="radio" id="youku" name="type" value="4">优酷.疯狂夺金</input></td></tr>
+                    <tr><td><input class="anstype" type="radio" id="zhihu" name="type" value="5">知乎.头脑王者</input></td></tr>
                 </table>
             </td>
             <td style="width:350px;padding-left:20px;padding-right:20px;background:#fee;">
-                <table style="line-height:20px;">
-                    {% for d in result %}
-                    {% if forloop.first %}
-                    <tr><td style="font-weight:bold">{{ d }} <br/></td></tr>
-                    {% else %}
-                    <tr><td style="color:red;text-indent: 20px;font-weight:bold">{{ d }} <br/></td></tr>
-                    {% endif %}
+                <table id="questionans" style="line-height:20px;">
+                    <tr><td id="question" colspan="3" style="font-weight:bold">{{ question }} <br/></td></tr>
+                    {% for i, ans in answer.items %}
+                    <tr>
+                        {% for a, c in ans.items %}
+                            <td name="answer" style="color:red;text-indent: 20px;font-weight:bold">{{ a }}</td>
+                            <td style="color:red;font-weight:bold">{{c}}</td>
+                            <td>
+                            <a class="secsearch" href="#" onclick="return secsearch('{{a}}');">搜</a> 
+                            <a class="secsearch" href="#"  onclick="return secsearch('{{a}}', '{{question}}');">加问搜</a>
+                            </td>
+                            {% endfor %}
+                    </tr>
                     {% endfor %}
-                    <tr><td style="font-size: 12px">耗时：{{ time}} 秒</td></tr>
+
+                    <tr><td  colspan="3" style="font-size: 12px">耗时：{{ time }} 秒</td></tr>
                 </table>
             </td>
             <td>
-                <input type="submit" name="submit" value="答题"
+                <input type="submit" name="submit" value="答题" onclick="return presubmit();"
                 style="width:140px; height:110px;font-size:60px;color:red;"  />
                 <p style="margin:0px;padding:10px;font-weight:bold;text-align:center;"><a href="/config/">初始配置</a></p>
             </td>
@@ -100,19 +203,25 @@ function init() {
         <tr><td colspan="3">
             <table>
                 <tr>
-                    <td><input type="radio" id="sbaidu" name="search" value="1"><span style="color:red;font-weight:bold;font-size:20px;">百度</span></input></td>
-                    <td><input type="radio" id="mbaidu" name="search" value="2">手机百度</input></td>
-                    <td><input type="radio" id="sogou" name="search" value="3">搜狗搜索</input></td>
-                    <td><input type="radio" id="google" name="search" value="4">谷歌</input></td>
-                    <td><input type="radio" id="bing" name="search" value="5">必应搜索</input></td>
-                    <td><input type="radio" id="s360" name="search" value="6">360搜索</input></td>
+                    <td><input class="stype" type="radio" id="sbaidu" name="search" value="1"><span style="color:red;font-weight:bold;font-size:20px;">百度</span></input></td>
+                    <td><input class="stype" type="radio" id="mbaidu" name="search" value="2">手机百度</input></td>
+                    <td><input class="stype" type="radio" id="sogou" name="search" value="3">搜狗搜索</input></td>
+                    <td><input class="stype" type="radio" id="google" name="search" value="4">谷歌</input></td>
+                    <td><input class="stype" type="radio" id="bing" name="search" value="5">必应搜索</input></td>
+                    <td><input class="stype" type="radio" id="s360" name="search" value="6">360搜索</input></td>
             </tr>
             </table>
         </td></tr>
-        
+        <tr>
+            <td><input type="checkbox" id="localcap" name='localcap' value="1">开启本地功能</input></td>
+        </tr>
     </table>
 </form>
-
+<div>
+    <form id="search_ans" method="POST">
+        <input type="hidden" id="search_data" name="data" />
+    </form>
+</div>
 </div>
 <iframe width = "100%" height="800px" src="/result/"></iframe>
 </body>

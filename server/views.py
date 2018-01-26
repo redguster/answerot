@@ -4,7 +4,8 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 import time, sys, os, subprocess
-import answerrot, adb
+import answerrot, adb, base64, urllib
+
 # Create your views here.
 def index(request):
     #print os.getcwd()
@@ -50,7 +51,66 @@ def index(request):
 
     res = answerrot.ocr(imgpath, htmlpath, int(atype), int(search), ci, ck, int(sx), int(sy))
 
-    return  render(request, 'server/index.html', {"result": res, "time": time.time()-start})
+    return  render(request, 'server/index.html', {"question": res[0], "answer": res[1], "time": time.time()-start})
+
+def search(request):
+    htmlpath = 'server/templates/server/result.html'
+    if not os.path.exists(htmlpath):
+        answerrot.write_html_file(htmlpath, '')
+
+    start = time.time()
+    if request.method != 'POST':
+        return  render(request, 'server/index.html', {"question": "MUST use POST method!", "time": ""})
+
+    atype = '1'
+    if request.GET.has_key('type'):
+        atype = request.GET['type']
+    search = '1'
+    if request.GET.has_key('type'):
+        search = request.GET['search']
+
+    imgpath = os.path.join(os.getcwd(), 'server\\img\\1.jpg')
+    
+    def write_file(path, data):
+        f = file(path, 'wb')
+        f.write(data)
+        f.close()
+    # ajax 
+    # for va in request.POST:
+    #     print type(va)
+    #     lens = len(va)  
+    #     lenx = lens - (lens % 4 if lens % 4 else 4)  
+    #     try:
+    #         write_file(imgpath, base64.b64decode(urllib.unquote(va)))
+    #     except:  
+    #         pass
+    #     break
+    if not request.POST.has_key('data'):
+        return  render(request, 'server/index.html', {"question": "No jpg data!", "time": ""})
+    data = request.POST['data']
+    try:
+        write_file(imgpath, base64.b64decode(urllib.unquote(data)))
+    except:  
+        pass
+
+    ci = adb.get_config("client_id")
+    if ci == "":
+        return HttpResponseRedirect('/config/?msg=Config client_id')  
+    ck = adb.get_config("client_secret")
+    if ck == "":
+        return HttpResponseRedirect('/config/?msg=Config client_secret')
+
+    
+    # sx = adb.get_config("sx")
+    # if sx == "":
+    #     return HttpResponseRedirect('/config/?msg=Config screen width')  
+    # sy = adb.get_config("sy")
+    # if sy == "":
+    #     return HttpResponseRedirect('/config/?msg=Config screen height')  
+
+    res = answerrot.ocr(imgpath, htmlpath, int(atype), int(search), ci, ck, 0, 0)
+
+    return  render(request, 'server/index.html', {"question": res[0], "answer": res[1], "time": time.time()-start})
 
 def result(request):
     return  render(request, 'server/result.html')
