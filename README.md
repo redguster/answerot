@@ -12,6 +12,8 @@
 
 1. **增加4个答题平台支持**。分别是UC-疯狂夺金、蘑菇街-大富翁、掌阅-百万文豪、映客-芝士超人，感谢@[AUGUSTRUSH8](https://github.com/AUGUSTRUSH8)提供的题目图片。
 
+![img](https://wx4.sinaimg.cn/mw1024/006mu4nKly1fnwsb04cklj30op069aac.jpg)
+
 2. **开放[www.answerot.com](http://www.answerot.com)试用**。目前服务器配置较低，可能会影响速度，仅给有兴趣的朋友试用。如果后续有需求，再考虑升级服务器。**后续功能同步更新本项目、AnswerotX、服务器**。
 
 ## 更新 2018.01.26
