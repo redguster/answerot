@@ -108,7 +108,7 @@ def search(request):
     # if sy == "":
     #     return HttpResponseRedirect('/config/?msg=Config screen height')  
 
-    res = answerrot.ocr(imgpath, htmlpath, int(atype), int(search), ci, ck, 0, 0)
+    res = answerrot.ocr(imgpath, htmlpath, int(atype), int(search), ci, ck, 0, 0, False)
 
     return  render(request, 'server/index.html', {"question": res[0], "answer": res[1], "time": time.time()-start})
 

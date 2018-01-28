@@ -32,7 +32,8 @@ def get_img(path):
     f.close()
     return base64.b64encode(d)
 
-def crop_img(path, dst, atype, sx, sy):
+#unused
+def crop_img0(path, dst, atype, sx, sy):
     im = Image.open(path)
     img_size = im.size
     # 用于本地功能，也可以再没有配置分辨率时使用
@@ -56,6 +57,61 @@ def crop_img(path, dst, atype, sx, sy):
     region = im.crop((x, y, x+w, y+h))
     region.save(dst)
 
+'''
+1 冲顶大会
+2 今日。百万英雄
+3 百度。好看视频
+4 优酷。疯狂夺金
+5 知乎。头脑王者
+6 UC。 疯狂夺金
+7 蘑菇街.大富翁
+8 掌阅.百万文豪
+9 映客.芝士超人
+'''
+def crop_img(path, dst, atype, sx, sy):
+    im = Image.open(path)
+    img_size = im.size
+    # 用于本地功能，也可以再没有配置分辨率时使用
+    if sx == 0 or sy == 0:
+        sx = img_size[0]
+        sy = img_size[1]
+
+    x = 0
+    y = (250*sx)/1080
+    h = img_size[1]/2 - 40
+    w = img_size[0]
+
+    crop = [
+        [], #0 xx
+        [(300*sy)/1920, img_size[1]/2-100], #1 冲顶大会
+        [(300*sy)/1920, h], #2 2 今日。百万英雄
+        [(250*sy)/1920, h], #3 百度。好看视频
+        [(400*sy)/1920, h], #4 优酷。疯狂夺金
+        [(610*sy)/1920, (1110*sy)/1920], #5 知乎。头脑王者
+        [404*sy/1920, 885*sy/1920], #6 UC。 疯狂夺金 270*sy/1280=>404*sy/1920 // （860-270）*sy/1280 => 885*sy/1920
+        [600*sy/1920, 705*sy/1920], #7 蘑菇街.大富翁  400*sy/1280 => 600*sy/1920 //(870-400)*sy/1280 => 470*sy/1280 => 705*sy/1920
+        [450*sy/1920, 750*sy/1920], #8 掌阅.百万文豪 300*sy/1280 => 300*1.5*sy/1920 =>450*sy/1920 // (800-300)*sy/1280=> 750*sy/1920
+        [345*sy/1920, 825*sy/1920], #9 映客.芝士超人 230*sy/1280=>345*sy/1920 // (780-230)*sy/1280 => 825*sy/1920
+    ]
+
+    '''
+    if atype == 1 or atype == 3:
+        y = (250*sx)/1080 #chongding # baidu
+    elif atype == 2:
+        y = (300*sx)/1080 #xigua # youku
+    elif atype == 4:
+        y = (400*sx)/1080
+    elif atype == 5: # zhihu
+        y = (610*sx)/1080
+        h = sy-(200*sx/1080)-y
+    elif atype == 6:
+    '''
+    y = crop[atype][0]
+    h = crop[atype][1]
+
+    region = im.crop((x, y, x+w, y+h))
+    region.save(dst)
+
 def write_html_file(path, data):
     f = file(path, 'w')
     f.write('<!DOCTYPE html>')
@@ -73,11 +129,13 @@ def write_file(path, data):
     f.write(data)
     f.close()
 
-def ocr(path, htmlpath, atype, stype, ci, ck, sx, sy):
+def ocr(path, htmlpath, atype, stype, ci, ck, sx, sy, crop=True):
     if os.path.exists(htmlpath):
         os.remove(htmlpath)
     dst = os.path.join(os.path.dirname(path), 'r.jpg')
-    crop_img(path, dst, atype, sx, sy)
+    #本地支持，不用crop
+    if crop == True:
+        crop_img(path, dst, atype, sx, sy)
     cont = get_ocr(get_img(dst), ci, ck)
     if cont[0] == False:
         write_html_file(htmlpath, str(cont[1]))
@@ -111,7 +169,7 @@ def ocr(path, htmlpath, atype, stype, ci, ck, sx, sy):
         
 def search(q, ans, path, atype, stype=1):
     ans1 = []
-    if atype == 4: #youku
+    if atype == 4 or atype == 6: #youku uc
         for a in ans:
             ans1.append(a[2:])
     else:

@@ -8,6 +8,12 @@
 
 # 功能更新
 
+## 更新 2018.01.28
+
+1. **增加4个答题平台支持**。分别是UC-疯狂夺金、蘑菇街-大富翁、掌阅-百万文豪、映客-芝士超人，感谢@[AUGUSTRUSH8](https://github.com/AUGUSTRUSH8)提供的题目图片。
+
+2. **开放[www.answerot.com](http://www.answerot.com)试用**。目前服务器配置较低，可能会影响速度，仅给有兴趣的朋友试用。如果后续有需求，再考虑升级服务器。**后续功能同步更新本项目、AnswerotX、服务器**。
+
 ## 更新 2018.01.26
 
 1. **增加本地支持**。将题目检索和题目拉取功能分离，服务端只负责题目的识别和搜索以及展示结果，而本地功能负责拉取手机中的题目信息，这样可以部署一次服务端，再任意电脑开启本地功能即可使用。**本地功能需要AnserotX的支持，详情见[AnserotX](https://github.com/anhkgg/answerotx)介绍**。如果不想自己部署服务端，可以偷懒使用我提供的服务端 [http://answerot.com](http://answerot.com) (暂时还未部署)，然后只需下载本地功能模块[AnserotX](https://github.com/anhkgg/answerotx)即可。
