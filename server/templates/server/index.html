@@ -29,6 +29,7 @@ function init() {
         'type=7':'mogujie',
         'type=8':'ireader',
         'type=9':'yingke',
+        'type=10':'douyu',
     }
 
     var url = location.href;
@@ -184,7 +185,7 @@ function secsearch(key, question) {
                     <tr><td><input class="anstype" type="radio" id="mogujie" name="type" value="7">蘑菇街.大富翁</input></td></tr>
                     <tr><td><input class="anstype" type="radio" id="ireader" name="type" value="8">掌阅.百万文豪</input></td></tr>
                     <tr><td><input class="anstype" type="radio" id="yingke" name="type" value="9">映客.芝士超人</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="yingke" name="type" value="9" disabled="disabled">...</input></td></tr>
+                    <tr><td><input class="anstype" type="radio" id="douyu" name="type" value="10">斗鱼.百万勇士</input></td></tr>
                 </table>
             </td>
             <td style="width:350px;padding-left:20px;padding-right:20px;background:#fee;">
@@ -224,7 +225,7 @@ function secsearch(key, question) {
             <td>
                 <img src="{% static 'img/public.png' %}" />
             </td>
-			<td>
+            <td>
                 <img src="{% static 'img/AnswerotX.png %}" />
             </td>
         </tr>
