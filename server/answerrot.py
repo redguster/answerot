@@ -128,6 +128,8 @@ def ocr(path, htmlpath, atype, stype, ci, ck, sx, sy, crop=True):
     #本地支持，不用crop
     if crop == True:
         crop_img(path, dst, atype, sx, sy)
+    else:
+        dst = path #直接使用1.jpg
     cont = get_ocr(get_img(dst), ci, ck)
     if cont[0] == False:
         write_html_file(htmlpath, str(cont[1]))
@@ -161,7 +163,7 @@ def ocr(path, htmlpath, atype, stype, ci, ck, sx, sy, crop=True):
         
 def search(q, ans, path, atype, stype=1):
     ans1 = []
-    if atype == 4 or atype == 6: #youku uc
+    if atype == 4 or atype == 6 or atype==11: #youku uc uchongbao
         for a in ans:
             ans1.append(a[2:])
     else:

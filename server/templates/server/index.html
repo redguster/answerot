@@ -33,15 +33,19 @@ function init() {
         'type=11':'ucpp',
     }
 
-    var url = location.href;
-    var arg = url.match(/type=\d+/)[0];
     var atype = document.getElementById("chongding");
-    for(var k in anstypes) {
-        if(k == arg) {
-            atype = document.getElementById(anstypes[k]);
-            break;
+    var url = location.href;
+    var arg = url.match(/type=\d+/);
+    if(arg != undefined) {
+        arg = arg[0];
+        for(var k in anstypes) {
+            if(k == arg) {
+                atype = document.getElementById(anstypes[k]);
+                break;
+            }
         }
     }
+    
     if(atype != undefined) {
         atype.checked = true;
     } 
