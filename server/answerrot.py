@@ -68,6 +68,7 @@ def crop_img0(path, dst, atype, sx, sy):
 8 掌阅.百万文豪
 9 映客.芝士超人
 10 斗鱼.百万勇者
+11 UC.红包赛
 '''
 def crop_img(path, dst, atype, sx, sy):
     im = Image.open(path)
@@ -93,7 +94,8 @@ def crop_img(path, dst, atype, sx, sy):
         [600*sy/1920, 686*sy/1920], #7 蘑菇街.大富翁 
         [450*sy/1920, 750*sy/1920], #8 掌阅.百万文豪
         [345*sy/1920, 825*sy/1920], #9 映客.芝士超人 
-        [336*sy/1920, 864*sy/1920], #10 斗鱼.百万勇者  
+        [336*sy/1920, 864*sy/1920], #10 斗鱼.百万勇者
+        [800*sy/1920, 800*sy/1920], #11 UC.红包赛 (1600-800)*sy/1920
     ]
 
     y = crop[atype][0]

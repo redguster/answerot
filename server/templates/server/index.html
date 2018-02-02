@@ -30,12 +30,14 @@ function init() {
         'type=8':'ireader',
         'type=9':'yingke',
         'type=10':'douyu',
+        'type=11':'ucpp',
     }
 
     var url = location.href;
+    var arg = url.match(/type=\d+/)[0];
     var atype = document.getElementById("chongding");
     for(var k in anstypes) {
-        if(url.indexOf(k) != -1) {
+        if(k == arg) {
             atype = document.getElementById(anstypes[k]);
             break;
         }
@@ -91,6 +93,15 @@ function answertype() {
 }
 
 function presubmit() {
+    //本版本默认本地功能
+    if(answertype() == "") {
+        $("#question").html('选择要答题的平台');
+        return false;
+    }
+    if(searchtype() == "") {
+        $("#question").html('选择你需要的搜索引擎');
+        return false;
+    }
     var localcap = document.getElementById("localcap");
     if(localcap.checked) {
         // $.get('http://localhost:9880/screencap', 
@@ -177,6 +188,7 @@ function secsearch(key, question) {
                     <tr><td><input class="anstype" type="radio" id="baidu" name="type" value="3">百度.极速挑战</input></td></tr>
                     <tr><td><input class="anstype" type="radio" id="youku" name="type" value="4">优酷.疯狂夺金</input></td></tr>
                     <tr><td><input class="anstype" type="radio" id="zhihu" name="type" value="5">知乎.头脑王者</input></td></tr>
+                    <tr><td style="color:red;font-weight:bold;"><input class="anstype" type="radio" id="ucpp" name="type" value="11">UC.红包赛</input></td></tr>
                 </table>
             </td>
             <td style="background:rgb(114, 231, 103);height:120px;width:160px;">
@@ -186,6 +198,7 @@ function secsearch(key, question) {
                     <tr><td><input class="anstype" type="radio" id="ireader" name="type" value="8">掌阅.百万文豪</input></td></tr>
                     <tr><td><input class="anstype" type="radio" id="yingke" name="type" value="9">映客.芝士超人</input></td></tr>
                     <tr><td><input class="anstype" type="radio" id="douyu" name="type" value="10">斗鱼.百万勇士</input></td></tr>
+                    <tr><td><input class="anstype" type="radio" id="unknow" name="type" value="12" disabled="disabled">...</input></td></tr>
                 </table>
             </td>
             <td style="width:350px;padding-left:20px;padding-right:20px;background:#fee;">
@@ -226,7 +239,7 @@ function secsearch(key, question) {
                 <img src="{% static 'img/public.png' %}" />
             </td>
             <td>
-                <img src="{% static 'img/AnswerotX.png %}" />
+                <img src="{% static 'img/AnswerotX.png' %}" />
             </td>
         </tr>
         <tr><td colspan="3">
