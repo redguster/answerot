@@ -98,7 +98,9 @@ https://cloud.baidu.com/doc/IMAGERECOGNITION/ImageClassify-API.html#.E7.AE.80.E4
 
 # 怎么答题
 
-1. 下载源码，进入源码根目录，启动服务
+1. 下载最新源码。可直接保存[压缩包](https://github.com/anhkgg/answerot/archive/master.zip)，也可通过`git clone git@github.com:anhkgg/answerot.git`下载（针对开发者）。压缩包解压。
+
+2. 进入源码根目录，按住shift，点击鼠标右键，弹出菜单后选择`在此处打开命令行`，再命令行窗口中输入`python manage.py runserver 0.0.0.0:8000`即可启动服务。
 
 ```
 c:\answerot\>python manage.py runserver 0.0.0.0:8000
@@ -114,15 +116,15 @@ Starting development server at http://0.0.0.0:8008/
 Quit the server with CTRL-BREAK.
 ```
 
-2. 打开浏览器访问 localhost:8000
+3. 打开浏览器访问 localhost:8000
 
-3. 第一次使用，先点击初始配置进入配置页，配置必要的参数，如图。左下角黑色区域为自动获取到的设备信息，手机设备一般对应xxxxx device，拿到xxxx填入对应配置项即可。虚拟机一般是emilator-xxxx，填入这串值即可。
+4. 第一次使用，先点击初始配置进入配置页，配置必要的参数，如图。左下角黑色区域为自动获取到的设备信息，手机设备一般对应xxxxx device，拿到xxxx填入对应配置项即可。虚拟机一般是emilator-xxxx，填入这串值即可。
 
 ![img](screencap/config.png)
 
-4. 配置完成后，返回答题页，打开答题app，等待题目出现，同时浏览器页面中答题按钮，大约2秒左右出现答案
+5. 配置完成后，返回答题页，打开答题app，等待题目出现，同时浏览器页面中答题按钮，大约2秒左右出现答案
 
-5. 确认答案。某些时候搜索引擎的答案肯定不是很准的，所需需要自己浏览结果页，寻找答案，由于选项相关文字都突出显示，可以快速查找答案。
+6. 确认答案。某些时候搜索引擎的答案肯定不是很准的，所需需要自己浏览结果页，寻找答案，由于选项相关文字都突出显示，可以快速查找答案。
 
 ```
 答案1：数量1
