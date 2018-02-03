@@ -47,31 +47,31 @@
 5. 设备参数可配置，可视化获取设备信息
 6. 一键获取答案
 
-# 安装
+# 安装黄静
 
-1. 安装python2.7.14（安装中勾选环境变量配置，否则需要自己配置环境变量）
+所需资源包地址：[https://pan.baidu.com/s/1ggE8Rth](https://pan.baidu.com/s/1ggE8Rth) 密码: `pq9p`
+
+1. 安装python2.7.14（安装中勾选环境变量配置，如果勾选了pip则省略第二步，否则需要自己配置环境变量）
 
 ```
 https://www.python.org/ftp/python/2.7.14/python-2.7.14.msi
 ```
 
-2. 安装pip(`https://pypi.python.org/pypi/pip`)，解压后，进入目录，使用命令`python setup.py install`安装
+2. 安装pip(`https://pypi.python.org/pypi/pip`)。下载pip-9.0.1.tar之后，解压，进入目录，按住shift，点击鼠标右键，弹出菜单后选择`在此处打开命令行`，在命令行窗口中输入命令`python setup.py install`安装。在安装python时勾选了pip忽略本步骤。
 
 ```
 https://pypi.python.org/packages/11/b6/abcb525026a4be042b486df43905d6893fb04f05aac21c32c638e939e447/pip-9.0.1.tar.gz#md5=35f01da33009719497f01a4ba69d63c9
 ```
-3. pip安装django、PIL、simplejson
+3. 使用pip安装django、PIL、simplejson，打开命令行窗口，分别输入下面的命令。
 
 ```
 pip install django==1.11
 pip install simplejson
 ```
-下载安装PIL
+下载安装PIL（提供的百度网盘中已经提供PIL）
 ```
 http://effbot.org/downloads/PIL-1.1.7.win32-py2.7.exe
 ```
-
-所需资源包地址：[https://pan.baidu.com/s/1ggE8Rth](https://pan.baidu.com/s/1ggE8Rth) 密码: `pq9p`
 
 4. 使用百度文字识别API识别图片文字，申请百度开发者账号，创建文字识别应用，拿到client_id, client_secret
 
@@ -100,7 +100,7 @@ https://cloud.baidu.com/doc/IMAGERECOGNITION/ImageClassify-API.html#.E7.AE.80.E4
 
 1. 下载最新源码。可直接保存[压缩包](https://github.com/anhkgg/answerot/archive/master.zip)，也可通过`git clone git@github.com:anhkgg/answerot.git`下载（针对开发者）。压缩包解压。
 
-2. 进入源码根目录，按住shift，点击鼠标右键，弹出菜单后选择`在此处打开命令行`，再命令行窗口中输入`python manage.py runserver 0.0.0.0:8000`即可启动服务。
+2. 进入源码根目录，按住shift，点击鼠标右键，弹出菜单后选择`在此处打开命令行`，在命令行窗口中输入`python manage.py runserver 0.0.0.0:8000`即可启动服务。
 
 ```
 c:\answerot\>python manage.py runserver 0.0.0.0:8000
