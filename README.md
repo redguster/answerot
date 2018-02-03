@@ -47,7 +47,7 @@
 5. 设备参数可配置，可视化获取设备信息
 6. 一键获取答案
 
-# 安装黄静
+# 安装环境
 
 所需资源包地址：[https://pan.baidu.com/s/1ggE8Rth](https://pan.baidu.com/s/1ggE8Rth) 密码: `pq9p`
 
