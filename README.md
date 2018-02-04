@@ -86,7 +86,7 @@ https://cloud.baidu.com/product/imagerecognition
 https://login.bce.baidu.com/
 ```
 
-然后管理应用中，找到client_id和client_secret
+然后管理应用中，找到`API Key`和`Secret Key`填入配置页的对象位置即可，`AppID`是不需要的。
 
 
 需要研究API的看这里
