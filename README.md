@@ -73,7 +73,7 @@ pip install simplejson
 http://effbot.org/downloads/PIL-1.1.7.win32-py2.7.exe
 ```
 
-4. 使用百度文字识别API识别图片文字，申请百度开发者账号，创建文字识别应用，拿到client_id, client_secret
+4. 使用百度文字识别API识别图片文字，申请百度开发者账号，创建文字识别应用，拿到`API Key`和`Secret Key`
 
 注册地址：
 ```
