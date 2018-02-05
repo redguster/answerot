@@ -116,6 +116,13 @@ Starting development server at http://0.0.0.0:8008/
 Quit the server with CTRL-BREAK.
 ```
 
+如果出现`unable to open database file`错误，请先输入如下命令，再重新启动服务。
+
+```
+python manage.py migrate //初始化数据库
+python manage.py runserver 0.0.0.0:8000 //启动服务
+```
+
 3. 打开浏览器访问 localhost:8000
 
 4. 第一次使用，先点击初始配置进入配置页，配置必要的参数，如图。左下角黑色区域为自动获取到的设备信息，手机设备一般对应xxxxx device，拿到xxxx填入对应配置项即可。虚拟机一般是emilator-xxxx，填入这串值即可。
