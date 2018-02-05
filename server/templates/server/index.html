@@ -16,6 +16,7 @@
            
 </head>
 <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/base64.js' %}"></script>
 <script type="text/javascript">
 
 function init() {
@@ -73,6 +74,10 @@ function init() {
     }
     if(url.indexOf("localcap") != -1) {
         $("#localcap").attr("checked", "checked");
+        $("#localocr").removeAttr("disabled");
+        if(url.indexOf("tess") != -1) {
+            $("#localocr").attr("checked", "checked");
+        }
     }
 }
 
@@ -107,6 +112,7 @@ function presubmit() {
         return false;
     }
     var localcap = document.getElementById("localcap");
+    var localocr = document.getElementById("localocr");
     if(localcap.checked) {
         // $.get('http://localhost:9880/screencap', 
         //     function(data){
@@ -114,7 +120,7 @@ function presubmit() {
         //         //document.write(data);
         //   }, 'jsonp')
         $.ajax({
-            url: 'http://localhost:9880/screencap/?type='+answertype(),
+            url: localocr.checked ? 'http://localhost:9880/screencap/?tess=1&type='+answertype()+'&search='+searchtype() : 'http://localhost:9880/screencap/?type='+answertype()+'&search='+searchtype(),
             //data: data,
             dataType: 'JSONP',
             success: function(data) {
@@ -136,9 +142,35 @@ function presubmit() {
                     //         //document.write(data);
                     //     }
                     // })
-                    $("#search_ans").attr("action", '/search/?localcap=1&type='+answertype()+'&search='+searchtype());
-                    $("#search_data").val(encodeURIComponent(data1));//base64 /+=符号丢失
-                    $("#search_ans").submit();
+                    var action = localocr.checked ? '/search/?tess=1&localcap=1&type='+answertype()+'&search='+searchtype() : '/search/?localcap=1&type='+answertype()+'&search='+searchtype()
+                    if(localocr.checked) {
+                        data1 = Base64.decode(data1);
+                        data1 = JSON.parse(data1);
+
+                        $("#questionans").html("");
+
+                        var innerhtml = '<tr><td id="question" colspan="3" style="font-weight:bold">'+data1.question+' <br/></td></tr>';
+                        for(var i =0; i<data1.count; i++) {
+                            var a = data1.answert[i].ans;
+                            var c = data1.answert[i].count;
+                            var tmp = '<tr>';
+                            tmp = tmp + '<td name="answer" style="color:red;text-indent: 20px;font-weight:bold">'+a+'</td>';
+                            tmp = tmp + '<td style="color:red;font-weight:bold">'+c+'</td>';
+                            tmp = tmp + '<td>';
+                            tmp = tmp + '<a class="secsearch" href="#" onclick="return secsearch(\''+a+'\');">搜</a> ';
+                            tmp = tmp + '<a class="secsearch" href="#"  onclick="return secsearch(\''+a+'\', \''+data1.question+'\');">加问搜</a>';
+                            tmp = tmp + '</td>';
+                            tmp = tmp + '</tr>';
+                            innerhtml = innerhtml + tmp;
+                        }
+                        $("#questionans").html(innerhtml);
+                        $("#resultfrm").attr("src", "http://localhost:9880/result/");
+                    } else {
+                        $("#search_ans").attr("action", action);
+                        $("#search_data").val(encodeURIComponent(data1));//base64 /+=符号丢失
+                        $("#search_ans").submit();
+                    }
+                   
                 }
             },
             error: function(xhr, msg) {
@@ -177,6 +209,23 @@ function secsearch(key, question) {
     }
     
     return false;
+}
+
+function tess_switch() {
+    var localcap = document.getElementById("localcap");
+    if(localcap.checked) {
+        $("#localocr").removeAttr("disabled");
+    } else {
+        $("#localocr").attr("disabled", "disabled");
+    }
+}
+function tess_check() {
+    var localcap = document.getElementById("localcap");
+    var localocr = document.getElementById("localocr");
+    if(localocr.checked && !localcap.checked) {
+        localocr.checked = false;
+        return false;
+    }
 }
 </script>
 
@@ -259,8 +308,12 @@ function secsearch(key, question) {
             </table>
         </td></tr>
         <tr>
-            <td><input type="checkbox" id="localcap" name='localcap' value="1">开启本地功能</input></td>
-            <td colspan="3"><a style="color:red;" href="http://www.answerot.com">请试用www.answerot.com和AnswerotX</a></td>
+            <table>
+            <tr><td><input type="checkbox" id="localcap" name='localcap' value="1" onclick="tess_switch()">开启本地功能</input></td>
+            <td style="color:red;font-weight:bold;"><input type="checkbox" id="localocr" name='tess' value="1" onclick="return tess_check();" disabled="disabled">开启本地OCR(测试中，需下载最新AnswerotX)</input></td>
+            <td></td>
+            <td colspan="3" style="padding-left:40px"><a style="color:red;" href="http://www.answerot.com">请试用www.answerot.com和AnswerotX</a></td></tr>
+            </table>
         </tr>
     </table>
 </form>
@@ -270,6 +323,6 @@ function secsearch(key, question) {
     </form>
 </div>
 </div>
-<iframe width = "100%" height="800px" src="/result/"></iframe>
+<iframe id="resultfrm" width = "100%" height="800px" src="/result/"></iframe>
 </body>
 </html>
