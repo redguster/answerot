@@ -6,6 +6,8 @@
 
 **交流反馈群**：**554355216**
 
+**新增安装部署演示视频：** 链接: [https://pan.baidu.com/s/1smGXgIT](https://pan.baidu.com/s/1smGXgIT) 密码: `6kqu`
+
 [项目介绍和安装部署](#INSTALL)
 
 # 功能更新
