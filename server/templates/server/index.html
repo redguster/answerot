@@ -32,6 +32,10 @@ function init() {
         'type=9':'yingke',
         'type=10':'douyu',
         'type=11':'ucpp',
+        'type=12':'biyao',
+        'type=13':'bobo',
+        'type=14':'jidong',
+        'type=15':'geinihua',
     }
 
     var atype = document.getElementById("chongding");
@@ -241,19 +245,24 @@ function tess_check() {
                     <tr><td><input class="anstype" type="radio" id="baidu" name="type" value="3">百度.极速挑战</input></td></tr>
                     <tr><td><input class="anstype" type="radio" id="youku" name="type" value="4">优酷.疯狂夺金</input></td></tr>
                     <tr><td><input class="anstype" type="radio" id="zhihu" name="type" value="5">知乎.头脑王者</input></td></tr>
+                    <tr><td><input class="anstype" type="radio" id="uccry" name="type" value="6">UC.疯狂夺金</input></td></tr>
                     <tr><td style="color:red;font-weight:bold;"><input class="anstype" type="radio" id="ucpp" name="type" value="11">UC.红包赛</input></td></tr>
+                    <tr><td><input class="anstype" type="radio" id="mogujie" name="type" value="7">蘑菇街.大富翁</input></td></tr>
                 </table>
             </td>
             <td style="background:rgb(114, 231, 103);height:120px;width:160px;">
-                <table style="padding:10px;">
-                    <tr><td><input class="anstype" type="radio" id="uccry" name="type" value="6">UC.疯狂夺金</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="mogujie" name="type" value="7">蘑菇街.大富翁</input></td></tr>
+                <table style="padding:10px;">                    
                     <tr><td><input class="anstype" type="radio" id="ireader" name="type" value="8">掌阅.百万文豪</input></td></tr>
                     <tr><td><input class="anstype" type="radio" id="yingke" name="type" value="9">映客.芝士超人</input></td></tr>
                     <tr><td><input class="anstype" type="radio" id="douyu" name="type" value="10">斗鱼.百万勇士</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="unknow" name="type" value="12" disabled="disabled">...</input></td></tr>
+                    <tr><td><input class="anstype" type="radio" id="biyao" name="type" value="12">必要.抢钱冲顶</input></td></tr>
+                    <tr><td><input class="anstype" type="radio" id="bobo" name="type" value="13">波波视频</input></td></tr>
+                    <tr><td><input class="anstype" type="radio" id="jidong" name="type" value="14">京东直播 </input></td></tr>
+                    <tr><td><input class="anstype" type="radio" id="geinihua" name="type" value="15">百万给你花</input></td></tr>
+                    <tr><td><input class="anstype" type="radio" id="unknow" name="type" value="16" disabled="disabled">...</input></td></tr>
                 </table>
             </td>
+
             <td style="width:350px;padding-left:20px;padding-right:20px;background:#fee;">
                 <table id="questionans" style="line-height:20px;">
                     <tr><td id="question" colspan="3" style="font-weight:bold">{{ question }} <br/></td></tr>

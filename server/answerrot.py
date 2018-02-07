@@ -69,6 +69,10 @@ def crop_img0(path, dst, atype, sx, sy):
 9 映客.芝士超人
 10 斗鱼.百万勇者
 11 UC.红包赛
+12 必要.抢钱冲顶
+13 波波视频
+14 京东直播
+15 百万给你花
 '''
 def crop_img(path, dst, atype, sx, sy):
     im = Image.open(path)
@@ -84,22 +88,28 @@ def crop_img(path, dst, atype, sx, sy):
     w = img_size[0]
 
     crop = [
-        [], #0 xx
-        [(300*sy)/1920, 800*sx/1080],#1 冲顶大会
-        [(300*sy)/1920, 920*sx/1080],#2 今日。百万英雄
-        [(250*sy)/1920, 920*sx/1080],#3 百度。好看视频
-        [(400*sy)/1920, 920*sx/1080],#4 优酷。疯狂夺金
-        [(610*sy)/1920, (1110*sx)/1080], #5 知乎。头脑王者
-        [404*sy/1920, 885*sx/1080], #6 UC。 疯狂夺金 
-        [600*sy/1920, 690*sx/1080], #7 蘑菇街.大富翁 
-        [450*sy/1920, 750*sx/1080], #8 掌阅.百万文豪 
-        [345*sy/1920, 825*sx/1080], #9 映客.芝士超人 
-        [336*sy/1920, 864*sx/1080], #10 斗鱼.百万勇者
-        [800*sy/1920, 800*sx/1080], #11 UC.红包赛
+        [x, w, y, h], #0 xx
+        [x, w, (300*sx)/1080, 800*sx/1080],#1 冲顶大会 (1100-300)
+        [x, w, (300*sx)/1080, 920*sx/1080],#2 今日。百万英雄 920*sx/1080
+        [x, w, (250*sx)/1080, 920*sx/1080],#3 百度。好看视频
+        [x, w, (400*sx)/1080, 920*sx/1080],#4 优酷。疯狂夺金
+        [x, w, (610*sx)/1080, (1110*sx)/1080], #5 知乎。头脑王者
+        [x, w, 404*sx/1080, 885*sx/1080], #6 UC。 疯狂夺金 
+        [x, w, 600*sx/1080, 690*sx/1080], #7 蘑菇街.大富翁
+        [x, w, 450*sx/1080, 750*sx/1080], #8 掌阅.百万文豪 
+        [x, w, 345*sx/1080, 825*sx/1080], #9 映客.芝士超人
+        [x, w, 336*sx/1080, 864*sx/1080], #10 斗鱼.百万勇者
+        [x, w, 800*sx/1080, 800*sx/1080], #11 UC.红包赛
+        [50*sx/1080, w-2*50*sx/1080, 730*sx/1080, 790*sx/1080], #12 必要.抢钱冲顶  4行题目有问题
+        [x, w, 390*sx/1080, 850*sx/1080], #13 波波视频
+        [60*sx/1080, w-2*60*sx/1080, 320*sx/1080, 912*sx/1080], #14 京东直播
+        [88*sx/1080, w-2*88*sx/1080, 885*sx/1080, 825*sx/1080], #15 百万给你花
     ]
 
-    y = crop[atype][0]
-    h = crop[atype][1]
+    x = crop[atype][0]
+    w = crop[atype][1]
+    y = crop[atype][2]
+    h = crop[atype][3]
 
     region = im.crop((x, y, x+w, y+h))
     region.save(dst)
@@ -153,22 +163,18 @@ def ocr(path, htmlpath, atype, stype, ci, ck, sx, sy, crop=True):
                 question = question + result[i]['words']
             ans = []
             for i in range(num-ans_count, num):
-                ans.append(result[i]['words'])
+                if atype == 4 or atype == 6 or atype==11 or atype==12: #youku uc uchongbao biyao
+                    ans.append(result[i]['words'][2:])
+                else:
+                    ans.append(result[i]['words'])
 
-            question = re.sub(re.compile('^[\d\.]*'), '', question, count=1)
-            return search(question, ans, htmlpath, atype, stype)
+            question = re.sub(re.compile('^\d*[\. ]*'), '', question, count=1)
+            return search(question, ans, htmlpath, stype)
     
     write_html_file(htmlpath, cont1)
     return ["识别图片失败", "请查看错误信息", "", ""]
         
-def search(q, ans, path, atype, stype=1):
-    ans1 = []
-    if atype == 4 or atype == 6 or atype==11: #youku uc uchongbao
-        for a in ans:
-            ans1.append(a[2:])
-    else:
-        ans1 = ans
-
+def search(q, ans1, path, stype=1):
     q1 = q
     url = 'http://www.baidu.com/s?wd='+urllib.quote(q1.encode('gbk'))
     if stype == 1:
