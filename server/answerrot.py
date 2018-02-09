@@ -73,6 +73,9 @@ def crop_img0(path, dst, atype, sx, sy):
 13 波波视频
 14 京东直播
 15 百万给你花
+16 腾讯视频
+17 微博
+18 千帆
 '''
 def crop_img(path, dst, atype, sx, sy):
     im = Image.open(path)
@@ -101,9 +104,12 @@ def crop_img(path, dst, atype, sx, sy):
         [x, w, 336*sx/1080, 864*sx/1080], #10 斗鱼.百万勇者
         [x, w, 800*sx/1080, 800*sx/1080], #11 UC.红包赛
         [50*sx/1080, w-2*50*sx/1080, 730*sx/1080, 790*sx/1080], #12 必要.抢钱冲顶  4行题目有问题
-        [x, w, 390*sx/1080, 850*sx/1080], #13 波波视频
+        [x, w, 390*sx/1080, 880*sx/1080], #13 波波视频
         [60*sx/1080, w-2*60*sx/1080, 320*sx/1080, 912*sx/1080], #14 京东直播
         [88*sx/1080, w-2*88*sx/1080, 885*sx/1080, 825*sx/1080], #15 百万给你花
+        [100*sx/1080, w-2*100*sx/1080, 470*sx/1080, 940*sx/1080], #16 腾讯视频 1410-470
+        [100*sx/1080, w-2*100*sx/1080, 400*sx/1080, 990*sx/1080], #17 微博 1390-400
+        [140*sx/1080, w-2*140*sx/1080, 340*sx/1080, 840*sx/1080], #18 千帆 1180-340
     ]
 
     x = crop[atype][0]
@@ -131,7 +137,7 @@ def write_file(path, data):
     f.write(data)
     f.close()
 
-def ocr(path, htmlpath, atype, stype, ci, ck, sx, sy, crop=True):
+def ocr(path, htmlpath, atype, stype, delno, addans, ci, ck, sx, sy, crop=True):
     if os.path.exists(htmlpath):
         os.remove(htmlpath)
     dst = os.path.join(os.path.dirname(path), 'r.jpg')
@@ -167,8 +173,19 @@ def ocr(path, htmlpath, atype, stype, ci, ck, sx, sy, crop=True):
                     ans.append(result[i]['words'][2:])
                 else:
                     ans.append(result[i]['words'])
-
+            
             question = re.sub(re.compile('^\d*[\. ]*'), '', question, count=1)
+            if delno == '1':
+                question = question.replace("不".decode("utf8"), "")
+                question = question.replace("没".decode("utf8"), "")
+            addans_key = ["下列", "以下"]
+            if addans == '1':
+                for key in addans_key:
+                    if question.find(key.decode("utf8"))!= -1:
+                        for a in ans:
+                            question = question + ' ' + a
+                        break
+
             return search(question, ans, htmlpath, stype)
     
     write_html_file(htmlpath, cont1)
@@ -198,8 +215,8 @@ def search(q, ans1, path, stype=1):
     except Exception as e:
         content = e
 
-    pattern = re.compile('<script.+?</script>', re.MULTILINE|re.DOTALL)
-    content = re.sub(pattern, '', content)
+    #pattern = re.compile('<script.+?</script>', re.MULTILINE|re.DOTALL)
+    #content = re.sub(pattern, '', content)
     content = content.replace('<em>', "<span style='font-size:22px;'><em>")
     content = content.replace('</em>', "</em></span>")
     for a in ans1:

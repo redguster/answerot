@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,60 +14,107 @@
           s.parentNode.insertBefore(hm, s);
         })();
         </script>
+    <link href="{% static 'css/bootstrap.min.css' %}" media="screen" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/bootstrap-combobox.css' %}" media="screen" rel="stylesheet" type="text/css">
 </head>
-<style type="text/css">
-#config {
-    margin:0px;
-    padding:0px;
-}
-#config table tr td {
-    padding:10px;
-    text-align:left;
-}
+<script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/bootstrap-combobox.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/core.js' %}" type="text/javascript"></script>
 
-#config table tr td input.text {
-    width:300px;
-}
-
-</style>
+</head>
 
 <body>
+
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/index">答题小能手 <span class="VERSION">0.1.6</span></a>
+    </div>
+    <div>
+        <ul class="nav navbar-nav">
+            <li><a href="/index/">首页</a></li>
+            <li><a href="https://github.com/anhkgg/answerot/blob/master/README.md" target="__blank">帮助</a></li>
+            <li><a href="https://jq.qq.com/?_wv=1027&k=5unbRgG" target="__blank">QQ群：554355216</a></li>
+            <li><a style="color:red;" target="__blank" href="https://mp.weixin.qq.com/s?__biz=MzI1NTUzMjUzMQ==&mid=2247483775&idx=1&sn=a64edca3144f3e7f3f8824aafed85854&chksm=ea35cde3dd4244f5f3f493d622c3a3713128fb740021789c81587ba662b23d1f897628690d63&mpshare=1&scene=1&srcid=0129NzEQCRAnSdhYto2FzVo3##">公众号：汉客儿</a></li>
+            <li class="active"><a href="http://anhkgg.com/aboutme/" target="__blank">联系作者</a></li>
+        </ul>
+    </div>
+    </div>
+</nav>
+
+
+<div class="container-fluid" style="margin-top:-20px;">
+<div class="row clearfix" >
+    <ol class="breadcrumb">
+            <li><a href="/index">返回</a></li>
+            <li class="active">配置</li>
+        </ol>
+</div>
+<div class="row clearfix" style="">
+    <div class="col-md-8 column">
+            <form class="form-horizontal" role="form"  method="GET" action="/config/">
+            <div class="form-group">
+                <label for="firstname" class="col-sm-2 control-label">设备序号</label>
+                <div class="col-sm-10">
+                    <input class="form-control " type="text" name="device" value="{{result.device}}" placeholder="只有一个设备不用配置该项">
+                    <span class="help-block">通过adb devices获取，如61995125 device，填入61995125即可。如果adb devices只有一个设备不用配置该项。</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">手机分辨率宽度</label>
+                <div class="col-sm-10">
+                    <input class="form-control " type="text" name="screenx" value="{{result.sx}}" />
+                    <span class="help-block">手机屏幕像素宽度，默认1080</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">手机分辨率高度</label>
+                <div class="col-sm-10">
+                    <input class="form-control " type="text" name="screeny" value="{{result.sy}}" />
+                    <span class="help-block">手机屏幕像素高，默认1920</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">百度API_Key</label>
+                <div class="col-sm-10">
+                    <input class="form-control " type="text" name="client_id" value="{{result.client_id}}" />
+                    <span class="help-block">注册百度文字识别应用的API Key</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">百度Secret_Key</label>
+                <div class="col-sm-10">
+                    <input class="form-control " type="text" name="client_secret" value="{{result.client_secret }}" />
+                    <span class="help-block">注册百度文字识别应用的Secret Key</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                <input class="btn btn-primary" type="submit" value="配置" />
+                <a href="/index">返回答题</a> <a href="https://github.com/anhkgg/answerot">更多使用帮助</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                        <div class="alert alert-success">提示：{{msg}}</div>
+                </div>
+            </div>
+            </form>
+    </div>
+    <div class="col-md-4 column">
+        <p>
+            <span style="color:red; font-size:20px;">自动获取的设备信息，可根据提示填入设备序号配置项：</span>
+            
+            <pre style="height:400px;background:black;color:white">{{result.device_info}}</pre>
+        </p>        
+    </div>
+    
+</div>
+</div>
+
 <div id="config">
-    <form method="GET" action="/config/">
-    <table border="1" style="border:1px; border-collapse:0px;border-spacing:0px;">
-        <tr>
-            <td colspan="3" style="background:rgb(58, 11, 187);color:white;font-size:20px;font-weight:bold;line-height:20px;height:40px;">
-                直播答题小能手 by <a href="https://github.com/anhkgg/answerot" style="color:white;">anhkgg</a>. 
-            </td>
-        </tr>
-        <tr><td>配置项</td><td >内容</td><td>说明</td></tr>
-        <tr>
-            <td>设备序号</td><td><input class="text" type="text" name="device" value="{{result.device}}"/></td>
-            <td>通过adb devices获取，如61995125 device，填入61995125即可。<br/>如果adb devices只有一个设备不用配置该项。
-            </td>
-        </tr>
-        <tr><td>屏幕分辨率 width</td><td><input class="text" type="text" name="screenx" value="{{result.sx}}" /></td>
-            <td>设备屏幕像素宽度，默认1080px</td></tr>
-        <tr><td>屏幕分辨率 height</td><td><input class="text" type="text" name="screeny" value="{{result.sy}}" /></td>
-            <td>设备屏幕像素高度，默认1920px</td></tr>
-        <tr><td>百度图片识别API.API_Key</td><td><input class="text" type="text" name="client_id" value="{{result.client_id}}" /></td>
-            <td>注册百度图片识别应用的API Key</td></tr>
-        <tr><td>百度图片识别API.Secret_Key</td><td><input class="text" type="text" name="client_secret" value="{{result.client_secret }}" /></td>
-            <td>注册百度图片识别应用的Secret Key</td></tr>
-        <tr>
-            <td></td>
-            <td><input id="" type="submit" value="配置" /></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>
-                <p><b style="color:red">下面自动获取到的设备信息，可根据提示填入设备序号配置项：</b><pre style="background:black;color:white">{{result.device_info}}</pre></p>
-            </td>
-            <td><a href="/index">返回答题</a><br><a href="https://github.com/anhkgg/answerot">更多使用帮助</a></td>
-            <td><span style="color:red">提示：{{msg}}</span></td>
-        </tr>
-    </table>
-    </form>
+    
 </div>
 
 </body>

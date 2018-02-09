@@ -13,259 +13,93 @@
           s.parentNode.insertBefore(hm, s);
         })();
         </script>
-           
+    <link href="{% static 'css/bootstrap.min.css' %}" media="screen" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/bootstrap-combobox.css' %}" media="screen" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/core.css' %}" media="screen" rel="stylesheet" type="text/css">
 </head>
 <script type="text/javascript" src="{% static 'js/jquery-3.3.1.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/base64.js' %}"></script>
-<script type="text/javascript">
+<script src="{% static 'js/bootstrap.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/bootstrap-combobox.js' %}" type="text/javascript"></script>
 
-function init() {
-    anstypes = {
-        'type=1':'chongding',
-        'type=2':'jinri',
-        'type=3':'baidu',
-        'type=4':'youku',
-        'type=5':'zhihu',
-        'type=6':'uccry',
-        'type=7':'mogujie',
-        'type=8':'ireader',
-        'type=9':'yingke',
-        'type=10':'douyu',
-        'type=11':'ucpp',
-        'type=12':'biyao',
-        'type=13':'bobo',
-        'type=14':'jidong',
-        'type=15':'geinihua',
-    }
+<script src="{% static 'js/core.js' %}"  type="text/javascript" ></script>
 
-    var atype = document.getElementById("chongding");
-    var url = location.href;
-    var arg = url.match(/type=\d+/);
-    if(arg != undefined) {
-        arg = arg[0];
-        for(var k in anstypes) {
-            if(k == arg) {
-                atype = document.getElementById(anstypes[k]);
-                break;
-            }
-        }
-    }
+<body>
+
+<div class="container-fluid">
+<div class="row clearfix">
+<div class="col-md-4 column" id="left">
+        <nav class="navbar navbar-inverse" role="navigation" style="margin-left:-20px;margin-right:-40px;">
+            <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">答题小能手 <span class="VERSION">0.1.8</span></a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a href="/config/">配置</a></li>
+                    <li><a href="https://github.com/anhkgg/answerot/blob/master/README.md" target="__blank">帮助</a></li>                    
+                    <li><a style="color:red;" target="__blank" href="https://mp.weixin.qq.com/s?__biz=MzI1NTUzMjUzMQ==&mid=2247483775&idx=1&sn=a64edca3144f3e7f3f8824aafed85854&chksm=ea35cde3dd4244f5f3f493d622c3a3713128fb740021789c81587ba662b23d1f897628690d63&mpshare=1&scene=1&srcid=0129NzEQCRAnSdhYto2FzVo3##">公众号：汉客儿</a></li>
+                    <li class="active"><a href="http://anhkgg.com/aboutme/" target="__blank">联系作者</a></li>
+                </ul>
+            </div>
+            </div>
+        </nav>
+
+    <div class="container-fluid">
+        <form method="GET" action='/index'>
+            <div class="row">
+                <div class="form-group">
+                <select class="form-control" id="atype" name="type">
+                    <option class="anstype" id="chongding" name="type" value="1">冲顶大会 ( 核桃 )</option>
+                    <option class="anstype" id="jinri" name="type" value="2">今日.百万英雄</option>
+                    <option class="anstype" id="baidu" name="type" value="3">百度.极速挑战</option>
+                    <option class="anstype" id="youku" name="type" value="4">优酷.疯狂夺金</option>
+                    <option class="anstype" id="zhihu" name="type" value="5">知乎.头脑王者</option>
+                    <option class="anstype" id="uccry" name="type" value="6">UC.疯狂夺金</option>
+                    <option class="anstype" id="ucpp" name="type" value="11" style="color:red">UC.红包赛</option>
+                    <option class="anstype" id="mogujie" name="type" value="7">蘑菇街.大富翁</option>
+                    <option class="anstype" id="ireader" name="type" value="8">掌阅.百万文豪</option>
+                    <option class="anstype" id="yingke" name="type" value="9">映客.芝士超人</option>
+                    <option class="anstype" id="douyu" name="type" value="10">斗鱼.百万勇士</option>
+                    <option class="anstype" id="biyao" name="type" value="12">必要.抢钱冲顶</option>
+                    <option class="anstype" id="bobo" name="type" value="13">波波视频</option>
+                    <option class="anstype" id="jidong" name="type" value="14">京东直播</option>
+                    <option class="anstype" id="geinihua" name="type" value="15">百万给你花</option>
+                    <option class="anstype" id="tengxun" name="type" value="16" style="color:red">腾讯视频(需屏蔽弹幕)</option>
+                    <option class="anstype" id="weibo" name="type" value="17"> 微博.黄金10秒</option>
+                    <option class="anstype" id="qianfan" name="type" value="18">千帆.知识英雄</option>
+                </select>
+                </div>     
+            </div>
     
-    if(atype != undefined) {
-        atype.checked = true;
-    } 
-    var search = document.getElementById("sbaidu");
-    if(url.indexOf("search=1") != -1) {
-        search = document.getElementById("sbaidu");
-    }
-    else if(url.indexOf("search=2") != -1) {
-        search = document.getElementById("mbaidu");
-    }
-    else if(url.indexOf("search=3") != -1) {
-        search = document.getElementById("sogou");
-    }
-    else if(url.indexOf("search=4") != -1) {
-        search = document.getElementById("google");
-    }
-    else if(url.indexOf("search=5") != -1) {
-        search = document.getElementById("bing");
-    }
-    else if(url.indexOf("search=6") != -1) {
-        search = document.getElementById("s360");
-    }
-    if(search != undefined) {
-        search.checked = true;
-    }
-    if(url.indexOf("localcap") != -1) {
-        $("#localcap").attr("checked", "checked");
-        $("#localocr").removeAttr("disabled");
-        if(url.indexOf("tess") != -1) {
-            $("#localocr").attr("checked", "checked");
-        }
-    }
-}
-
-function searchtype() {
-    var st = $('input.stype');
-    for(var i=0; i<st.length; i++) {
-        if(st[i].checked == true) {
-            return $(st[i]).val();
-        }
-    }
-    return '';
-}
-
-function answertype() {
-    var st = $('input.anstype');
-    for(var i=0; i<st.length; i++) {
-        if(st[i].checked == true) {
-            return $(st[i]).val();
-        }
-    }
-    return '';
-}
-
-function presubmit() {
-    //本版本默认本地功能
-    if(answertype() == "") {
-        $("#question").html('选择要答题的平台');
-        return false;
-    }
-    if(searchtype() == "") {
-        $("#question").html('选择你需要的搜索引擎');
-        return false;
-    }
-    var localcap = document.getElementById("localcap");
-    var localocr = document.getElementById("localocr");
-    if(localcap.checked) {
-        // $.get('http://localhost:9880/screencap', 
-        //     function(data){
-        //         console.log("1111");
-        //         //document.write(data);
-        //   }, 'jsonp')
-        $.ajax({
-            url: localocr.checked ? 'http://localhost:9880/screencap/?tess=1&type='+answertype()+'&search='+searchtype() : 'http://localhost:9880/screencap/?type='+answertype()+'&search='+searchtype(),
-            //data: data,
-            dataType: 'JSONP',
-            success: function(data) {
-                var data1 = data.data;
-                if(data1.substr(0, 4) == "ERR:") {
-                    var td = $("#questionans td");
-                    for(var i =0; i<td.length; i++) {
-                        $(td).html("")
-                    }
-                    $("#question").html(data1);
-                    $("#questionans tr:eq(1) td:eq(0)").html("请检查AnswerotX配置是否正确");
-                } else {
-                    // $.post({
-                    //     url: '/search/?type='+answertype()+'&search='+searchtype(),
-                    //     data: encodeURIComponent(data.data),//base64 /+=符号丢失
-                    //     success: function(data) {
-                    //         location.href = location.href + '?type='+answertype()+'&search='+searchtype();
-                    //         console.log(location.href);
-                    //         //document.write(data);
-                    //     }
-                    // })
-                    var action = localocr.checked ? '/search/?tess=1&localcap=1&type='+answertype()+'&search='+searchtype() : '/search/?localcap=1&type='+answertype()+'&search='+searchtype()
-                    if(localocr.checked) {
-                        data1 = Base64.decode(data1);
-                        data1 = JSON.parse(data1);
-
-                        $("#questionans").html("");
-
-                        var innerhtml = '<tr><td id="question" colspan="3" style="font-weight:bold">'+data1.question+' <br/></td></tr>';
-                        for(var i =0; i<data1.count; i++) {
-                            var a = data1.answert[i].ans;
-                            var c = data1.answert[i].count;
-                            var tmp = '<tr>';
-                            tmp = tmp + '<td name="answer" style="color:red;text-indent: 20px;font-weight:bold">'+a+'</td>';
-                            tmp = tmp + '<td style="color:red;font-weight:bold">'+c+'</td>';
-                            tmp = tmp + '<td>';
-                            tmp = tmp + '<a class="secsearch" href="#" onclick="return secsearch(\''+a+'\');">搜</a> ';
-                            tmp = tmp + '<a class="secsearch" href="#"  onclick="return secsearch(\''+a+'\', \''+data1.question+'\');">加问搜</a>';
-                            tmp = tmp + '</td>';
-                            tmp = tmp + '</tr>';
-                            innerhtml = innerhtml + tmp;
-                        }
-                        $("#questionans").html(innerhtml);
-                        $("#resultfrm").attr("src", "http://localhost:9880/result/");
-                    } else {
-                        $("#search_ans").attr("action", action);
-                        $("#search_data").val(encodeURIComponent(data1));//base64 /+=符号丢失
-                        $("#search_ans").submit();
-                    }
-                   
-                }
-            },
-            error: function(xhr, msg) {
-                var td = $("#questionans td");
-                for(var i =0; i<td.length; i++) {
-                    $(td).html("")
-                }
-                $("#question").html("ERR: 请求AnswerotX失败");
-                $("#questionans tr:eq(1) td:eq(0)").html("请检查AnswerotX是否正常启动");
-            }
-            });
-        return false;
-    }
-    return true;
-}
-function secsearch(key, question) {
-    var smap = {
-        "1": "http://www.baidu.com/s?wd=",
-        "2": "https://m.baidu.com/s?word=",
-        "3": "https://www.sogou.com/sgo?query=",
-        "4": "https://www.google.com/search?q=",
-        "5": "http://cn.bing.com/search?go=搜索&qs=ds&form=QBRE&q=",
-        "6": "https://www.so.com/s?q=",
-    }
-    var st = $('input.stype');
-    for(var i=0; i<st.length; i++) {
-        if(st[i].checked == true) {
-            var url = smap[$(st[i]).val()];
-            console.log(url);
-            if(question != undefined) {
-                key = question + ' ' + key;
-            }
-            window.open(url+key, "__blank");
-            break;
-        }
-    }
-    
-    return false;
-}
-
-function tess_switch() {
-    var localcap = document.getElementById("localcap");
-    if(localcap.checked) {
-        $("#localocr").removeAttr("disabled");
-    } else {
-        $("#localocr").attr("disabled", "disabled");
-    }
-}
-function tess_check() {
-    var localcap = document.getElementById("localcap");
-    var localocr = document.getElementById("localocr");
-    if(localocr.checked && !localcap.checked) {
-        localocr.checked = false;
-        return false;
-    }
-}
-</script>
-
-<body onload="init()">
-<div>
-<form method="GET" action='/index'>
-    <table>
-        <tr>
-            <td style="background:rgb(114, 231, 103);height:120px;width:160px;">
-                <table style="padding:10px;">
-                    <tr><td><input class="anstype" type="radio" id="chongding" name="type" value="1">冲顶大会</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="jinri" name="type" value="2">今日.百万英雄</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="baidu" name="type" value="3">百度.极速挑战</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="youku" name="type" value="4">优酷.疯狂夺金</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="zhihu" name="type" value="5">知乎.头脑王者</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="uccry" name="type" value="6">UC.疯狂夺金</input></td></tr>
-                    <tr><td style="color:red;font-weight:bold;"><input class="anstype" type="radio" id="ucpp" name="type" value="11">UC.红包赛</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="mogujie" name="type" value="7">蘑菇街.大富翁</input></td></tr>
-                </table>
-            </td>
-            <td style="background:rgb(114, 231, 103);height:120px;width:160px;">
-                <table style="padding:10px;">                    
-                    <tr><td><input class="anstype" type="radio" id="ireader" name="type" value="8">掌阅.百万文豪</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="yingke" name="type" value="9">映客.芝士超人</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="douyu" name="type" value="10">斗鱼.百万勇士</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="biyao" name="type" value="12">必要.抢钱冲顶</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="bobo" name="type" value="13">波波视频</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="jidong" name="type" value="14">京东直播 </input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="geinihua" name="type" value="15">百万给你花</input></td></tr>
-                    <tr><td><input class="anstype" type="radio" id="unknow" name="type" value="16" disabled="disabled">...</input></td></tr>
-                </table>
-            </td>
-
-            <td style="width:350px;padding-left:20px;padding-right:20px;background:#fee;">
-                <table id="questionans" style="line-height:20px;">
-                    <tr><td id="question" colspan="3" style="font-weight:bold">{{ question }} <br/></td></tr>
+            <div class="row">
+                <div class="radio-inline"><label style="color:red"><input class="stype" type="radio" id="sbaidu" name="search" value="1">百度</label></div>
+                <div class="radio-inline"><label><input class="stype" type="radio" id="mbaidu" name="search" value="2">手机百度</label></div>                
+                <div class="radio-inline"><label><input class="stype" type="radio" id="sogou" name="search" value="3">搜狗搜索</label></div>                
+                <div class="radio-inline"><label><input class="stype" type="radio" id="google" name="search" value="4">谷歌</label></div>                
+                <div class="radio-inline"><label><input class="stype" type="radio" id="bing" name="search" value="5">必应搜索</label></div>                
+                <div class="radio-inline"><label><input class="stype" type="radio" id="s360" name="search" value="6">360搜索</label></div>
+            </div>
+            
+            <div class="row">
+                <div class="checkbox-inline"><label style="color:red"><input type="checkbox" id="delno" name='delno' value="1" onclick="" checked="checked">自动去掉否定词</label></div> 
+                <div class="checkbox-inline"><label><input type="checkbox" id="addans" name='addans' value="1" onclick="">自动加问搜("以下"类型)</label></div>
+            </div>
+            
+            <div class="row">
+                <div class="checkbox-inline"><label><input type="checkbox" id="localcap" name='localcap' value="1" onclick="tess_switch()">开启本地功能</label></div> 
+                <div class="checkbox-inline"><label><input type="checkbox" id="localocr" name='tess' value="1" onclick="return tess_check();" disabled="disabled">开启本地OCR</label></div>
+                <div class="checkbox-inline"><label><input type="checkbox" id="detail" name='detail' value="1" onclick="switch_detail();" checked="checked">开启详情页</label></div>
+            </div>
+            <div class="row">
+                    <input class="btn btn-danger btn-lg" type="submit" name="submit" value="答题" onclick="return presubmit();" />
+                    <a class="btn btn-link" href="/config/">初始配置</a>
+                    <a class="btn btn-link" href="https://github.com/anhkgg/answerot/blob/master/README.md">使用帮助</a>
+                    <a class="btn btn-link" style="color:red;" href="http://www.answerot.com">请试用www.answerot.com和AnswerotX</a>        
+            </div>
+            <div class="row">
+                <table class="table table-bordered " id="questionans" style="line-height:20px;">
+                    <tr class="danger"><td id="question" colspan="3" style="font-weight:bold">{{ question }} <br/></td></tr>
                     {% for i, ans in answer.items %}
                     <tr>
                         {% for a, c in ans.items %}
@@ -277,61 +111,54 @@ function tess_check() {
                             </td>
                             {% endfor %}
                     </tr>
-                    {% endfor %}
-
-                    <tr><td  colspan="3" style="font-size: 12px">耗时：{{ time }} 秒</td></tr>
+                    {% endfor %}    
+                    <tr class="success"><td colspan="3" style="font-size: 12px">耗时：{{ time }} 秒</td></tr>
                 </table>
-            </td>
-            <td>
-                <input type="submit" name="submit" value="答题" onclick="return presubmit();"
-                style="width:140px; height:110px;font-size:60px;color:red;"  />
-                <p style="margin:0px;padding:10px;font-weight:bold;text-align:center;"><a href="/config/">初始配置</a></p>
-            </td>
+            </div>
+            <div class="row">
+                <p class="alert alert-info">更新：当前版本是<span class="VERSION"></span>，最新版本是<span id="newversion" style="color:red;"></span>，
+                    <a style="text-decoration:underline;color:red;" href="https://github.com/anhkgg/answerot/archive/master.zip" target="__blank">点击下载最新版，覆盖老版本</a></p>
+            </div>    
+            <div class="row alert alert-danger box" style="padding-left:0px;">
+                <div class="col-md-2 column" style="padding-right:0px;">
+                    公告 | 更新：
+                </div>
+                <div class="col-md-10 column"  style="overflow:hidden;word-break:keep-all;white-space:nowrap;">
+                    <a id="annouce" target="__blank" class="scroll" style="z-index:-1" href="https://github.com/anhkgg/answerot/commits/master"></a>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-6 column" style="padding-left:0px;">
+                    <table class="table table-bordered ">
+                        <tr class="danger"><td><strong>有任何问题和建议请联系作者：</strong></td></tr>
+                        <tr class=""><td>github: <a target="__blank" href="https://anhkgg.github.io">anhkgg</td></tr>
+                        <tr class=""><td>mailto: <a target="__blank"  href="mailto:anhkgg.163.com">anhkgg.163.com</a></td></tr>
+                        <tr class=""><td>公众号: <a target="__blank"  href="https://mp.weixin.qq.com/s?__biz=MzI1NTUzMjUzMQ==&mid=2247483771&idx=1&sn=0fc6d839342c159ceead17e9d1232445&chksm=ea35cde7dd4244f1825c7daf918ec2635526a5b124cf842a56654875a13b9bce02cebb07d4dd##">汉客儿</a></td></tr>
+                        <tr class=""><td>QQ群: <a target="__blank"  href="https://jq.qq.com/?_wv=1027&k=5unbRgG">554355216</a></td></tr>                        
+                    </table>
+                </div>
+                <div class="col-md-3 column">
+                    <img src="{% static 'img/public.png' %}"  class="img-thumbnail" />
+                </div>
+                <div class="col-md-3 column">
+                    <img src="{% static 'img/AnswerotX.png' %}" class="img-thumbnail" />    
+                </div>
+            </div>
+        </form>
+    </div>  
+</div>
+<div class="col-md-8 column" id="right">
+    <iframe id="resultfrm" style="width:100%; height:100%; min-height:900px;overflow:scroll" src="/result/"></iframe> 
+</div>
+</div>
+</div>
 
-            <td style="padding-left:40px;">
-                <table style="padding:10px;">
-                    <tr><td><b>有任何问题和建议请联系作者：</b></td></tr>
-                    <tr><td>github: <a href="https://anhkgg.github.io">anhkgg</a></td></tr>
-                    <tr><td>mailto: <a href="mailto:anhkgg.163.com">anhkgg.163.com</a></td></tr>
-                    <tr><td>公众号: <a href="https://mp.weixin.qq.com/s?__biz=MzI1NTUzMjUzMQ==&mid=2247483771&idx=1&sn=0fc6d839342c159ceead17e9d1232445&chksm=ea35cde7dd4244f1825c7daf918ec2635526a5b124cf842a56654875a13b9bce02cebb07d4dd##">汉客儿</a></td></tr>
-                    <tr><td><a href="https://github.com/anhkgg/answerot/blob/master/README.md">使用帮助</a></td></tr>
-                </table>
-            </td>
-            <td>
-                <img src="{% static 'img/public.png' %}" />
-            </td>
-            <td>
-                <img src="{% static 'img/AnswerotX.png' %}" />
-            </td>
-        </tr>
-        <tr><td colspan="3">
-            <table>
-                <tr>
-                    <td><input class="stype" type="radio" id="sbaidu" name="search" value="1"><span style="color:red;font-weight:bold;font-size:20px;">百度</span></input></td>
-                    <td><input class="stype" type="radio" id="mbaidu" name="search" value="2">手机百度</input></td>
-                    <td><input class="stype" type="radio" id="sogou" name="search" value="3">搜狗搜索</input></td>
-                    <td><input class="stype" type="radio" id="google" name="search" value="4">谷歌</input></td>
-                    <td><input class="stype" type="radio" id="bing" name="search" value="5">必应搜索</input></td>
-                    <td><input class="stype" type="radio" id="s360" name="search" value="6">360搜索</input></td>
-            </tr>
-            </table>
-        </td></tr>
-        <tr>
-            <table>
-            <tr><td><input type="checkbox" id="localcap" name='localcap' value="1" onclick="tess_switch()">开启本地功能</input></td>
-            <td style="color:red;font-weight:bold;"><input type="checkbox" id="localocr" name='tess' value="1" onclick="return tess_check();" disabled="disabled">开启本地OCR(测试中，需下载最新AnswerotX)</input></td>
-            <td></td>
-            <td colspan="3" style="padding-left:40px"><a style="color:red;" href="http://www.answerot.com">请试用www.answerot.com和AnswerotX</a></td></tr>
-            </table>
-        </tr>
-    </table>
-</form>
 <div>
     <form id="search_ans" method="POST">
         <input type="hidden" id="search_data" name="data" />
     </form>
 </div>
-</div>
-<iframe id="resultfrm" width = "100%" height="800px" src="/result/"></iframe>
+
 </body>
 </html>
