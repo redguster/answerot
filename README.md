@@ -12,6 +12,20 @@
 
 # 功能更新
 
+## 更新 2018.2.10
+
+1. **目前已经支持18个平台**。冲顶大会、今日。百万英雄、百度。好看视频、优酷。疯狂夺金、知乎。头脑王者、UC。 疯狂夺金、蘑菇街.大富翁、掌阅.百万文豪、映客.芝士超人、斗鱼.百万勇者、UC.红包赛、必要.抢钱冲顶(不稳定)、波波视频、京东直播、百万给你花、腾讯视频(需屏蔽弹幕)、微博.黄金 10 秒、千帆.知识英雄。
+
+2. **两种 OCR 识别，百度和 tesseract**。百度有每天500条限制，而且是网络请求，可能影响速度，另外增加tesseract本地识别，还在测试中，需要训练数据。
+
+3. **多种扩展搜索模式，更加有效的答题**。增加`自动去否定`针对题目待否定词，如`不`、`没`等，`自动加问搜`针对如问题是`下列是....`。
+
+4. **页面重构美化**。使用bootstrap美化界面，操作更加方便。
+
+![img](http://wx3.sinaimg.cn/large/006mu4nKly1foap1113v9j31fx0m145t.jpg)
+
+5. **发布[v0.1.8](https://github.com/anhkgg/answerot/releases/tag/v0.1.8)版本**。
+
 ## 更新 2018.01.28
 
 1. **增加4个答题平台支持**。分别是UC-疯狂夺金、蘑菇街-大富翁、掌阅-百万文豪、映客-芝士超人，感谢@[AUGUSTRUSH8](https://github.com/AUGUSTRUSH8)提供的题目图片。
@@ -51,7 +65,7 @@
 
 # 安装环境
 
-所需资源包地址：[https://pan.baidu.com/s/1ggE8Rth](https://pan.baidu.com/s/1ggE8Rth) 密码: `pq9p`
+所需资源包地址：[https://pan.baidu.com/s/1smGXgIT](https://pan.baidu.com/s/1smGXgIT) 密码:`6kqu`
 
 1. 安装python2.7.14（安装中勾选环境变量配置，如果勾选了pip则省略第二步，否则需要自己配置环境变量）
 
@@ -59,9 +73,11 @@
 https://www.python.org/ftp/python/2.7.14/python-2.7.14.msi
 ```
 
-2. 安装pip(`https://pypi.python.org/pypi/pip`)。下载pip-9.0.1.tar之后，解压，进入目录，按住shift，点击鼠标右键，弹出菜单后选择`在此处打开命令行`，在命令行窗口中输入命令`python setup.py install`安装。在安装python时勾选了pip忽略本步骤。
+2. 安装[setuptools](https://pypi.python.org/packages/6c/54/f7e9cea6897636a04e74c3954f0d8335cc38f7d01e27eec98026b049a300/setuptools-38.5.1.zip#md5=1705ae74b04d1637f604c336bb565720)和pip(`https://pypi.python.org/pypi/pip`)。下载之后，先安装setuptools，解压进入setuptools目录，按住shift，点击鼠标右键，弹出菜单后选择`在此处打开命令行`，在命令行窗口中输入命令`python setup.py install`安装。成功之后继续安装pip-9.0.1.tar，解压进入目录，按住shift，点击鼠标右键，弹出菜单后选择`在此处打开命令行`，在命令行窗口中输入命令`python setup.py install`安装。在安装python时勾选了pip忽略本步骤。
 
 ```
+//这两个路径可以忽略，直接再网盘下载就行了
+https://pypi.python.org/pypi/setuptools
 https://pypi.python.org/packages/11/b6/abcb525026a4be042b486df43905d6893fb04f05aac21c32c638e939e447/pip-9.0.1.tar.gz#md5=35f01da33009719497f01a4ba69d63c9
 ```
 3. 使用pip安装django、PIL、simplejson，打开命令行窗口，分别输入下面的命令。
