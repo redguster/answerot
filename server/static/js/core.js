@@ -81,6 +81,12 @@ function init() {
     if(url.indexOf("addans=1") != -1) {
         $("#addans").attr("checked", "checked");
     }
+    if(url.indexOf("&") != -1) {
+        if(url.indexOf("detail=1") == -1) {
+            $("#detail").removeAttr("checked");
+            switch_detail();
+        }
+    }
 }
 
 function searchtype() {
