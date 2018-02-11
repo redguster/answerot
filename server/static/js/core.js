@@ -182,7 +182,7 @@ function presubmit() {
                     } else {
                         var delno = $("#delno")[0].checked ? "1":"";
                         var addans = $("#addans")[0].checked ? "1":"";
-                        action = action + '&delno='+delno+'&addans='+addans;
+                        action = action + '&backup=1&delno='+delno+'&addans='+addans;
                         $("#search_ans").attr("action", action);
                         $("#search_data").val(encodeURIComponent(data1));//base64 /+=符号丢失
                         $("#search_ans").submit();

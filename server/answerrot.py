@@ -57,26 +57,30 @@ def crop_img0(path, dst, atype, sx, sy):
     region = im.crop((x, y, x+w, y+h))
     region.save(dst)
 
-'''
-1 冲顶大会
-2 今日。百万英雄
-3 百度。好看视频
-4 优酷。疯狂夺金
-5 知乎。头脑王者
-6 UC。 疯狂夺金
-7 蘑菇街.大富翁
-8 掌阅.百万文豪
-9 映客.芝士超人
-10 斗鱼.百万勇者
-11 UC.红包赛
-12 必要.抢钱冲顶
-13 波波视频
-14 京东直播
-15 百万给你花
-16 腾讯视频
-17 微博
-18 千帆
-'''
+def get_atype(atype):
+    atypes = [
+        '',
+        '冲顶大会',#1
+        '今日.百万英雄', #2
+        '百度.好看视频', #3
+        '优酷.疯狂夺金', #4
+        '知乎.头脑王者', #5
+        'UC.疯狂夺金', #6
+        '蘑菇街.大富翁',#7
+        '掌阅.百万文豪',#8
+        '映客.芝士超人',#9
+        '斗鱼.百万勇者',#10
+        'UC.红包赛',#11
+        '必要.抢钱冲顶',#12
+        '波波视频',#13
+        '京东直播',#14
+        '百万给你花',#15
+        '腾讯视频',#16
+        '微博',#17
+        '千帆',#18
+        ]
+    return atypes[atype].decode("utf8")
+
 def crop_img(path, dst, atype, sx, sy):
     im = Image.open(path)
     img_size = im.size
@@ -133,13 +137,34 @@ def write_html_file(path, data):
     f.close()
 
 def write_file(path, data):
-    f = file(path, 'w')
+    f = file(path, 'wb')
     f.write(data)
     f.close()
 
-def ocr(path, htmlpath, atype, stype, delno, addans, ci, ck, sx, sy, crop=True):
+def get_file(path):
+    f = file(path, 'rb')
+    b = f.read()
+    f.close()
+    return b
+
+def backup_file(path, atype):
+    try:
+        dir = "./server"#os.path.dirname(path)
+        dst = os.path.join(dir, "backup")
+        if not os.path.exists(dst):
+            os.mkdir(dst)
+        name = '%s_%s.jpg' % (get_atype(atype), time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()))
+        dst = os.path.join(dst, name)
+        write_file(dst, get_file(path))
+    except:
+        pass
+
+def ocr(path, htmlpath, atype, stype, delno, addans, backup, ci, ck, sx, sy, crop=True):
     if os.path.exists(htmlpath):
         os.remove(htmlpath)
+    if backup == '1':
+        backup_file(path, atype)
+
     dst = os.path.join(os.path.dirname(path), 'r.jpg')
     #本地支持，不用crop
     if crop == True:

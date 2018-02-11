@@ -32,6 +32,10 @@ def index(request):
     addans = ""
     if request.GET.has_key('addans'):
         addans = request.GET['addans']
+    
+    backup = "1"
+    if request.GET.has_key('backup'):
+        backup = request.GET['backup']
 
     start = time.time()
     imgpath = os.path.join(os.getcwd(), 'server\\img\\1.jpg')
@@ -55,7 +59,7 @@ def index(request):
     if sy == "":
         return HttpResponseRedirect('/config/?msg=Config screen height')  
 
-    res = answerrot.ocr(imgpath, htmlpath, int(atype), int(search), delno, addans, ci, ck, int(sx), int(sy))
+    res = answerrot.ocr(imgpath, htmlpath, int(atype), int(search), delno, addans, backup, ci, ck, int(sx), int(sy))
 
     return  render(request, 'server/index.html', {"question": res[0], "answer": res[1], "time": time.time()-start})
 
@@ -80,6 +84,9 @@ def search(request):
     addans = ""
     if request.GET.has_key('addans'):
         addans = request.GET['addans']
+    backup = "1"
+    if request.GET.has_key('backup'):
+        backup = request.GET['backup']
 
     imgpath = os.path.join(os.getcwd(), 'server\\img\\1.jpg')
     
@@ -120,7 +127,7 @@ def search(request):
     # if sy == "":
     #     return HttpResponseRedirect('/config/?msg=Config screen height')  
 
-    res = answerrot.ocr(imgpath, htmlpath, int(atype), int(search),  delno, addans, ci, ck, 0, 0, False)
+    res = answerrot.ocr(imgpath, htmlpath, int(atype), int(search),  delno, addans, backup, ci, ck, 0, 0, False)
 
     return  render(request, 'server/index.html', {"question": res[0], "answer": res[1], "time": time.time()-start})
 
