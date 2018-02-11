@@ -287,7 +287,7 @@ function get_annouce()
 
 function current_version() 
 {
-    var VERSION = '0.1.8';
+    var VERSION = '0.1.9';
     var obj = $(".VERSION");
     for(var i=0; i<obj.length; i++) {
         $(obj[i]).html(VERSION);
